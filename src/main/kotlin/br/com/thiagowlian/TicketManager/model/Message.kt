@@ -17,7 +17,6 @@ data class Message(
     var message: String,
     @Column
     var creationDate: LocalDateTime,
-    @Column
     @ManyToOne
     @JoinColumn(name = "ticketId")
     var ticket: Ticket,

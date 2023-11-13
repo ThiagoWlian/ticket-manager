@@ -2,7 +2,9 @@ package br.com.thiagowlian.TicketManager.service
 
 import br.com.thiagowlian.TicketManager.exception.ValueNotFoundException
 import br.com.thiagowlian.TicketManager.model.Ticket
+import br.com.thiagowlian.TicketManager.model.User
 import br.com.thiagowlian.TicketManager.repository.TicketRepository
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Service
 import java.util.Optional
 

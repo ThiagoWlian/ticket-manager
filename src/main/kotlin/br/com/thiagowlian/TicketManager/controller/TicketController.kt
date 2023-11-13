@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import br.com.thiagowlian.TicketManager.dto.TicketInsertDto
 import br.com.thiagowlian.TicketManager.model.Ticket
+import br.com.thiagowlian.TicketManager.model.User
 import br.com.thiagowlian.TicketManager.service.TicketService
 import br.com.thiagowlian.TicketManager.service.UserService
+import org.springframework.data.jpa.repository.Query
+import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -34,17 +39,26 @@ class TicketController(private var ticketService: TicketService, private var use
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{id}")
-    fun getTicketById(@PathVariable id: Long) : ResponseEntity<TicketDto> {
-        var ticket: Ticket = ticketService.findById(id);
-        var ticketDto = TicketDto(ticket)
-        return ResponseEntity.ok().body(ticketDto)
-    }
-
     @GetMapping
     fun getAllTicket() : ResponseEntity<List<TicketDto>> {
         var tickets: List<Ticket> = ticketService.findAll();
         var ticketsDto = tickets.map { e -> TicketDto(e) }
         return ResponseEntity.ok().body(ticketsDto)
+    }
+
+    @QueryMapping
+    fun getTicketById(@Argument id: Long) : Ticket {
+        var ticket: Ticket = ticketService.findById(id);
+        return ticket
+    }
+
+    @SchemaMapping
+    fun creator(ticket: Ticket): User {
+        return ticket.creator
+    }
+
+    @SchemaMapping
+    fun responsible(ticket: Ticket): User? {
+        return ticket.responsible
     }
 }

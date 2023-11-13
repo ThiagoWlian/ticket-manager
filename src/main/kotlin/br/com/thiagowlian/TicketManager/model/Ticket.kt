@@ -1,7 +1,6 @@
 package br.com.thiagowlian.TicketManager.model
 
 import br.com.thiagowlian.TicketManager.dto.TicketInsertDto
-import br.com.thiagowlian.TicketManager.model.validation.ResponsibleValidation
 import jakarta.persistence.*
 
 @Entity
@@ -16,14 +15,13 @@ data class Ticket(
     var status: StatusTicket,
     @Column(name = "urgency")
     @Enumerated(EnumType.STRING)
-    var urgency: UrgencyTicket,
-    @Column
-    @OneToOne
+    var urgency: UrgencyTicket?,
+    @ManyToOne
+    @JoinColumn(name = "user_creator_id")
     var creator: User,
-    @Column
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_responsible_id")
     var responsible: User? = null,
-    @Column
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, mappedBy = "ticket")
     var messages: Set<Message>? = null,
     @Id

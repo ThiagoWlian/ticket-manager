@@ -1,0 +1,38 @@
+type Query {
+    getTicketById(id: ID): Ticket
+}
+
+type Ticket {
+    id: ID!
+    title: String!
+    description: String
+    status: StatusTicket
+    urgency: Urgency
+    creator: User!
+    responsible: User
+    message: Message
+}
+
+type User {
+    id: ID!
+    name: String!
+}
+
+type Message {
+    message: String!
+    creationDate: String
+}
+
+enum Urgency {
+    URGENTE,
+    ALTA,
+    MEDIA,
+    BAIXA
+}
+
+enum StatusTicket {
+    ABERTO,
+    EM_ANDAMENTO,
+    EM_TESTE,
+    FINALIZADO
+}
